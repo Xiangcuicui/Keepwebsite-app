@@ -1,0 +1,17 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="ic_full_star_ai_general">
+<g id="keyline">
+</g>
+<path id="ic" d="M17.2969 31.5C17.0391 29.9766 16.3594 28.3359 15.2578 26.5781C14.1562 24.7969 12.5859 23.1445 10.5469 21.6211C8.53125 20.0977 6.51562 19.125 4.5 18.7031V17.2266C6.49219 16.7578 8.40234 15.8906 10.2305 14.625C12.082 13.3359 13.6289 11.7891 14.8711 9.98437C16.1367 8.13281 16.9453 6.30469 17.2969 4.5H18.7734C18.9844 5.67187 19.4062 6.8789 20.0391 8.12109C20.6719 9.33984 21.4805 10.5117 22.4648 11.6367C23.4727 12.7383 24.5977 13.7344 25.8398 14.625C27.6914 15.9375 29.5781 16.8047 31.5 17.2266V18.7031C30.2109 18.9609 28.875 19.4883 27.4922 20.2852C26.1328 21.082 24.8672 22.0312 23.6953 23.1328C22.5234 24.2109 21.5625 25.3477 20.8125 26.543C19.7109 28.3008 19.0312 29.9531 18.7734 31.5H17.2969Z" fill="url(#paint0_linear_0_1113)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_1113" x1="31.5" y1="4.5" x2="4.5" y2="31.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FFB7F5"/>
+<stop offset="0.22" stop-color="#D274FF"/>
+<stop offset="0.39" stop-color="#A273FF"/>
+<stop offset="0.59" stop-color="#838FFF"/>
+<stop offset="0.77" stop-color="#8F9CFF"/>
+<stop offset="1" stop-color="#BED8FF"/>
+</linearGradient>
+</defs>
+</svg>

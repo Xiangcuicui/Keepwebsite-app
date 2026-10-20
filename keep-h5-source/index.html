@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Keep App｜你的全新 AI 运动教练</title>
+<style>
+:root{
+  --black-title:#000;
+  --black-80:rgba(0,0,0,.8);
+  --black-60:rgba(0,0,0,.6);
+  --black-40:rgba(0,0,0,.4);
+  --black-20:rgba(0,0,0,.2);
+  --white-80:rgba(255,255,255,.8);
+  --white-60:rgba(255,255,255,.6);
+  --white-40:rgba(255,255,255,.4);
+  --gray-f7:#f7f7f7;
+  --hero-bg:#f5f4fb;
+  --review-bg:#f3f6fc; /* rgb(240,244,251) + white 20% */
+  --star:#ffc55a;
+  --pad:84px;
+  --nav-h:60px;
+  --font:"PingFang SC","PingFang VF",-apple-system,BlinkMacSystemFont,"Helvetica Neue","Microsoft YaHei","Noto Sans SC",sans-serif;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{scroll-padding-top:calc(var(--nav-h) + env(safe-area-inset-top,0px))}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#fff;color:var(--black-title);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;border:0;background:none;cursor:pointer;color:inherit}
+.wrap{max-width:1440px;margin:0 auto;position:relative}
+
+/* ---------- 导航栏 ---------- */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:101;background:rgba(0,0,0,.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding-top:env(safe-area-inset-top,0px);background:rgba(0,0,0,.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.nav .wrap{height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 60px 0 25px}
+.nav-logo{width:80px;height:26px}
+.nav-right{display:flex;align-items:center;gap:40px}
+.nav-tabs{display:flex;align-items:center;height:44px}
+.nav-tabs a{height:48px;display:flex;align-items:center;padding:0 16px;font-size:16px;font-weight:500;color:var(--white-60);white-space:nowrap;transition:color .2s}
+.nav-tabs a:hover{color:#fff}
+.lang{display:flex;align-items:center;line-height:1;gap:2px;padding:0 2px;font-size:16px;font-weight:500;color:#fff;white-space:nowrap}
+.lang .off{color:var(--white-60);cursor:pointer}
+.menu-btn{display:none;width:40px;height:40px;align-items:center;justify-content:center;margin-right:-8px}
+.menu-btn span,.menu-btn span::before,.menu-btn span::after{display:block;width:18px;height:2px;border-radius:1px;background:#fff;position:relative;transition:transform .25s,background .25s}
+.menu-btn span::before,.menu-btn span::after{content:"";position:absolute;left:0}
+.menu-btn span::before{top:-6px}.menu-btn span::after{top:6px}
+.nav.open .menu-btn span{background:transparent}
+.nav.open .menu-btn span::before{transform:translateY(6px) rotate(45deg)}
+.nav.open .menu-btn span::after{transform:translateY(-6px) rotate(-45deg)}
+
+/* ---------- 首屏 ---------- */
+.hero{background:var(--hero-bg);overflow:hidden}
+.hero .wrap{height:1060px;display:flex;flex-direction:column;align-items:center;padding-top:110px}
+.hero-kicker{font-size:28px;font-weight:600;line-height:normal;white-space:pre;background-image:linear-gradient(90deg,rgba(0,0,0,.1),rgba(0,0,0,.1)),linear-gradient(196.23deg,#ffb7f5 0%,#d274ff 22%,#a273ff 39%,#838fff 59%,#8f9bff 77%,#bed8ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1{font-size:88px;line-height:110px;font-weight:600;text-align:center;white-space:nowrap}
+.stores{display:flex;gap:12px;padding-top:30px}
+.stores a{display:block;height:48px;transition:transform .2s}
+.stores a:hover{transform:translateY(-2px)}
+.stores img{width:155px;height:48px}
+.btn-tv{position:relative;width:168px;height:48px;background:#000;border:.8px solid rgba(255,255,255,.4);border-radius:4px;overflow:hidden}
+.btn-tv img{position:absolute;left:12.2px;top:7.2px;width:34px;height:34px}
+.btn-tv span{position:absolute;left:55.2px;top:11.6px;font-size:18px;font-weight:500;color:#fff;white-space:nowrap}
+.hero-img{position:absolute;left:0;right:0;bottom:0;height:700px}
+.hero-img img{width:100%;height:100%;object-fit:cover}
+.hero-badges{position:absolute;left:48px;bottom:48px;display:flex;gap:12px;z-index:1}
+/* App Icon 组合层 */
+.app-icon{position:relative;width:84px;height:84px}
+.app-icon .clip{position:absolute;inset:0;border-radius:12px;overflow:hidden}
+.app-icon .clip>img.base{position:absolute;inset:0;width:100%;height:100%}
+.app-icon .glow{position:absolute;left:-20.48px;top:39.38px;width:128.103px;height:123.429px;display:flex;align-items:center;justify-content:center}
+.app-icon .glow.hl{mix-blend-mode:hard-light}
+.app-icon .glow>div{flex:none;transform:rotate(-63.05deg);width:88.2px;height:98.867px;opacity:.1;position:relative}
+.app-icon .glow img{position:absolute;inset:-27.72% -31.07%;width:auto;height:auto;max-width:none}
+.app-icon .vec{position:absolute;left:50%;top:50%;width:42px;height:42px;transform:translate(-50%,-50%)}
+.app-icon .e79{position:absolute;left:-20.48px;top:-19.95px;width:124.425px;height:124.425px;max-width:none}
+.app-icon .star{position:absolute;left:calc(50% + 26.25px);top:calc(50% - 26.25px);width:10.5px;height:10.5px;transform:translate(-50%,-50%) rotate(180deg)}
+.qr{position:relative;width:84px;height:84px}
+.qr .bg{position:absolute;inset:0;width:84px;height:84px}
+.qr .code{position:absolute;left:9px;top:9px;width:66.6px;height:66.6px;border-radius:1.5px;overflow:hidden}
+.qr .code img{position:absolute;left:-3.9%;top:-5.19%;width:109.09%;height:109.09%;max-width:none}
+
+/* ---------- 板块标题 ---------- */
+.sec-head .wrap{padding:120px var(--pad) 60px;display:flex;flex-direction:column;gap:8px}
+.sec-head.v2 .wrap{padding-bottom:48px}
+.eyebrow{font-size:24px;font-weight:600;line-height:1.4;color:var(--black-80);display:flex;align-items:center;gap:8px}
+.eyebrow img{width:36px;height:36px;flex:none}
+.sec-title{font-size:64px;font-weight:600;line-height:normal}
+.sec-desc{font-size:20px;line-height:1.6;color:var(--black-60)}
+
+/* ---------- 卡片轮播 ---------- */
+.carousel .track{display:flex;gap:24px;align-items:flex-start;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:0 max(var(--pad),calc((100vw - 1440px)/2 + var(--pad)));scroll-padding:0 max(var(--pad),calc((100vw - 1440px)/2 + var(--pad)));scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.carousel .track::-webkit-scrollbar{display:none}
+.card{flex:none;width:408px;display:flex;flex-direction:column;gap:32px;scroll-snap-align:start}
+.card.wide{width:840px}
+.card .pic{width:100%;aspect-ratio:408/544;background:#f4f4f6;border-radius:16px;overflow:hidden}
+.card.h540 .pic{aspect-ratio:408/540}
+.card.wide .pic{aspect-ratio:840/540}
+.card .pic img{width:100%;height:100%;object-fit:cover}
+.card .txt{display:flex;flex-direction:column;gap:8px;padding:0 8px}
+.card h3{font-size:24px;font-weight:600;line-height:normal;font-feature-settings:"lnum" 1,"tnum" 1}
+.card p{font-size:20px;line-height:1.4;color:var(--black-40)}
+.arrows .wrap{display:flex;justify-content:flex-end;gap:32px;padding:40px var(--pad) 0}
+.arrow{width:60px;height:60px;border-radius:30px;background:var(--gray-f7);display:flex;align-items:center;justify-content:center;transition:opacity .2s,background .2s}
+.arrow:not(:disabled):hover{background:#ececec}
+.arrow:disabled{opacity:.4;cursor:default}
+.arrow .l{width:32px;height:32px;transform:scaleY(-1)}
+.arrow .r{width:32px;height:32px}
+
+/* ---------- 与用户同行 ---------- */
+.users .wrap{padding:120px var(--pad) 82px;text-align:center}
+.users .sec-desc{font-size:24px;margin-top:8px}
+.stats{display:flex;justify-content:center;align-items:center;gap:48px;margin-top:77px;flex-wrap:wrap}
+.stat{display:flex;align-items:center;gap:32px}
+.stat.first{gap:36px}
+.laurel{width:26.056px;height:72px;flex:none}
+.laurel.l{transform:scaleX(-1)}
+.stat-body{display:flex;flex-direction:column;align-items:center;gap:8px;white-space:nowrap}
+.stat-label{font-size:14px;font-weight:500;color:var(--black-40)}
+.stat-sub{font-size:14px;font-weight:500;color:var(--black-80)}
+.stat-body img{max-width:none}
+.n49{width:53.802px;height:28.88px}
+.n400{width:238.026px;height:31.572px}
+.ntop{width:125.903px;height:26.46px}
+.nstars{width:81.825px;height:13.665px}
+
+/* ---------- 用户评论滚动 ---------- */
+.reviews{height:464px;overflow:hidden}
+.reviews .wrap{height:100%}
+.marquee{display:flex;gap:24px;position:absolute;left:var(--pad);top:0;width:max-content;animation:marquee var(--dur,26.6s) linear infinite}
+.reviews:hover .marquee{animation-play-state:paused}
+@keyframes marquee{to{transform:translateX(var(--dist,-2592px))}}
+.review{flex:none;width:408px;height:324px;padding:28px;border-radius:16px;background:var(--review-bg);display:flex;flex-direction:column;gap:20px}
+.review-head{display:flex;flex-direction:column;gap:8px}
+.review h4{font-size:24px;font-weight:600;line-height:1.8}
+.review-meta{display:flex;align-items:center;gap:8px}
+.review-meta .s{color:var(--star);font-size:24px;line-height:1;letter-spacing:2px;white-space:nowrap}
+.review-meta .u{flex:1;min-width:0;font-size:14px;font-weight:500;color:var(--black-20);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.review p{font-size:20px;line-height:1.4;color:var(--black-80);overflow:hidden}
+
+/* ---------- 页脚 ---------- */
+.footer{background:#231f26 url(assets/footer-bg.svg) center/100% 100% no-repeat;color:var(--white-40)}
+.footer .wrap{padding:72px 80px 60px;min-height:660px}
+.f-cols{display:flex;justify-content:space-between;width:1270px;max-width:100%;font-size:18px;font-weight:600;white-space:nowrap}
+.f-col{display:flex;flex-direction:column;gap:20px}
+.f-col h5{font-size:18px;font-weight:600;color:var(--white-80)}
+.f-col ul{list-style:none;display:flex;flex-direction:column;gap:12px}
+.f-col a:hover,.f-links a:hover{color:var(--white-80)}
+.f-row{display:flex;align-items:center;margin-top:56px;min-height:36px}
+.f-logo{width:110.4px;height:36px;flex:none}
+.f-links{display:flex;gap:32px;margin-left:70.6px;font-size:18px;font-weight:600;white-space:nowrap}
+.f-social{display:flex;gap:16px;margin-left:auto}
+.f-social a,.f-social img{width:24px;height:24px;display:block}
+.weibo{position:relative;width:24px;height:24px;overflow:hidden}
+.weibo i{position:absolute;inset:11.65% 4.16% 14.08% 4.17%;-webkit-mask:url(assets/weibo-mask.svg) -1.001px -2.797px/24px 24px no-repeat;mask:url(assets/weibo-mask.svg) -1.001px -2.797px/24px 24px no-repeat}
+.weibo i img{width:100%;height:100%}
+.f-legal{margin-top:24px;display:flex;flex-direction:column;gap:40px}
+.f-line{width:100%;height:1px;background:rgba(255,255,255,.2)}
+.f-legal p{font-size:12px;line-height:24px;font-weight:600}
+.f-legal a{color:var(--white-40)}
+.f-legal a.u{text-decoration:underline}
+
+/* ---------- 平板 ---------- */
+@media (max-width:1200px){
+  :root{--pad:48px}
+  .nav .wrap{padding-right:32px}
+  .nav-right{gap:20px}
+  .nav-tabs a{padding:0 10px;font-size:15px}
+  .hero h1{font-size:72px;line-height:92px}
+  .f-links{gap:20px;margin-left:40px;font-size:16px}
+}
+/* ---------- 手机 H5 ---------- */
+@media (max-width:900px){
+  :root{--pad:20px;--nav-h:52px}
+  .nav .wrap{padding:0 16px}
+  .nav-logo{width:68px;height:22px}
+  .nav-right{gap:12px}
+  .menu-btn{display:flex}
+  .nav-tabs{display:none;position:absolute;top:100%;left:0;right:0;height:auto;flex-direction:column;align-items:stretch;padding:8px 0 16px;background:rgba(0,0,0,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .nav.open .nav-tabs{display:flex}
+  .nav-tabs a{padding:0 20px;font-size:16px}
+  .lang{font-size:14px}
+
+  .hero .wrap{height:auto;padding-top:calc(var(--nav-h) + 40px)}
+  .hero-kicker{font-size:18px}
+  .hero h1{font-size:clamp(30px,8.6vw,48px);line-height:1.3;white-space:normal;padding:4px 20px 0}
+  .stores{padding-top:20px;gap:6px;flex-wrap:wrap;justify-content:center}
+  .stores a,.stores img,.btn-tv{height:34px}
+  .stores img{width:110px}
+  .btn-tv{width:118px}
+  .btn-tv img{left:8px;top:5px;width:24px;height:24px}
+  .btn-tv span{left:38px;top:7px;font-size:13px}
+  .hero-img{position:relative;height:auto;width:100vw;aspect-ratio:5/4;margin-top:20px}
+  .hero-img img{height:100%;object-fit:cover}
+  .hero-badges{display:none}
+
+  .sec-head .wrap,.sec-head.v2 .wrap{padding:64px var(--pad) 28px;gap:6px}
+  .eyebrow{font-size:15px;gap:6px}
+  .eyebrow img{width:24px;height:24px}
+  .sec-title{font-size:30px;line-height:1.3}
+  .sec-desc{font-size:15px}
+
+  .carousel .track{gap:12px}
+  .card{width:68vw;gap:16px}
+  .card.wide{width:86vw}
+  .card .txt{padding:0 4px;gap:4px}
+  .card h3{font-size:17px}
+  .card p{font-size:14px}
+  .arrows{display:none}
+
+  .users .wrap{padding:72px var(--pad) 40px}
+  .users .sec-desc{font-size:15px}
+  .stats{margin-top:36px;gap:24px 20px}
+  .stat,.stat.first{gap:10px}
+  .laurel{width:15px;height:42px}
+  .stat-label,.stat-sub{font-size:12px}
+  .stat-body{gap:5px}
+  .stat-body img{zoom:.62}
+
+  .reviews{height:276px}
+  .marquee{gap:12px}
+  .review{width:280px;height:236px;padding:18px;gap:12px;border-radius:12px}
+  .review-head{gap:4px}
+  .review h4{font-size:17px;line-height:1.5}
+  .review-meta .s{font-size:15px}
+  .review-meta .u{font-size:12px}
+  .review p{font-size:14px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical}
+
+  .footer .wrap{padding:40px 20px 32px;min-height:0}
+  .f-cols{display:grid;grid-template-columns:1fr 1fr;gap:28px 16px;width:auto;font-size:14px;white-space:normal}
+  .f-col{gap:12px}
+  .f-col h5{font-size:15px}
+  .f-col ul{gap:8px}
+  .f-row{flex-wrap:wrap;gap:20px;margin-top:36px}
+  .f-links{order:3;flex-wrap:wrap;gap:12px 20px;margin:0;width:100%;font-size:14px}
+  .f-social{margin-left:auto}
+  .f-legal{gap:20px;margin-top:20px}
+  .f-legal p{font-size:11px;line-height:20px}
+}
+@media (prefers-reduced-motion:reduce){.marquee{animation:none}.carousel .track{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<!-- 导航栏 -->
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="#top" aria-label="Keep"><img class="nav-logo" src="assets/logo.svg" alt="Keep"></a>
+    <div class="nav-right">
+      <nav class="nav-tabs">
+        <a href="https://keep.com.cn/about" target="_blank" rel="noopener">Keep App</a>
+        <a href="#tools">消费品</a>
+        <a href="#ai">Keepace.ai</a>
+        <a href="https://keep.com.cn/sustainableDevelopment" target="_blank" rel="noopener">可持续发展</a>
+        <a href="https://keep.com.cn/news" target="_blank" rel="noopener">新闻动态</a>
+        <a href="https://ir.keep.com/tc/index.php" target="_blank" rel="noopener">投资者关系</a>
+      </nav>
+      <div class="lang"><span>中</span><span>｜</span><span class="off">EN</span></div>
+      <button class="menu-btn" id="menuBtn" aria-label="菜单" aria-expanded="false"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- 首屏 -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-kicker"> Keep App </div>
+      <h1>你的全新 AI 运动教练</h1>
+      <div class="stores">
+        <a href="#" aria-label="App Store 下载"><img src="assets/btn-appstore.svg" alt="App Store"></a>
+        <a href="#" aria-label="Android 下载"><img src="assets/btn-android.svg" alt="Android"></a>
+        <a href="#" class="btn-tv" aria-label="Android TV"><img src="assets/ic-tv.svg" alt=""><span>Android TV</span></a>
+      </div>
+      <div class="hero-img"><img src="assets/hero.webp" alt="Keep App 界面展示" fetchpriority="high"></div>
+      <div class="hero-badges">
+        <div class="app-icon" aria-label="Keep App 图标">
+          <div class="clip">
+            <img class="base" src="assets/appicon-bg.svg" alt="">
+            <div class="glow"><div><img src="assets/appicon-ellipse77.webp" alt="" width="143" height="154"></div></div>
+            <div class="glow hl"><div><img src="assets/appicon-ellipse80.webp" alt="" width="143" height="154"></div></div>
+            <img class="vec" src="assets/appicon-vector.svg" alt="">
+            <img class="e79" src="assets/appicon-ellipse79.svg" alt="">
+          </div>
+          <img class="star" src="assets/appicon-star.svg" alt="">
+        </div>
+        <div class="qr" aria-label="扫码下载">
+          <img class="bg" src="assets/qr-bg.svg" alt="">
+          <div class="code"><img src="assets/qr.webp" alt="下载二维码"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 基础功能介绍 -->
+  <section class="sec-head" id="tools">
+    <div class="wrap">
+      <div class="eyebrow">好记好练的运动工具</div>
+      <h2 class="sec-title">陪伴你的每一次运动</h2>
+      <p class="sec-desc">丰富多样的运动课程、达人内容、全品类运动记录工具、赛事活动、户外趣味玩法及一站式数据平台，同步智能设备数据，全方位满足你的运动需求。</p>
+    </div>
+  </section>
+  <section class="carousel" data-carousel>
+    <div class="track">
+      <article class="card wide h540"><div class="pic"><img src="assets/tool-course.webp" alt="" loading="lazy"></div><div class="txt"><h3>丰富课程与可定制计划</h3><p>10000+ 节精品课程覆盖全训练目标，适配各水平用户随时开练；大量专业长期的定制计划让你的训练更具针对性</p></div></article>
+      <article class="card wide h540"><div class="pic"><img src="assets/tool-record.webp" alt="" loading="lazy"></div><div class="txt"><h3>50+ 运动品类记录工具</h3><p>主流运动类型均可获得有效数据记录，跑步、行走、骑行等运动支持更详尽的自定义数据表盘，精准量化运动强度，Keep 记录你的每一次努力</p></div></article>
+      <article class="card h540"><div class="pic"><img src="assets/tool-route.webp" alt="" loading="lazy"></div><div class="txt"><h3>户外路线</h3><p>100000+ 户外路线，无论是组队跑步、徒步还是骑行，都能体验更多乐趣</p></div></article>
+      <article class="card h540"><div class="pic"><img src="assets/tool-gym.webp" alt="" loading="lazy"></div><div class="txt"><h3>健身房训练</h3><p>专业工具支持健身房训练记录，可根据你的需要自行编排，进步清晰可见</p></div></article>
+      <article class="card wide h540"><div class="pic"><img src="assets/tool-data.webp" alt="" loading="lazy"></div><div class="txt"><h3>健康与运动数据分析</h3><p>除了 Keep 的数据记录，你也可以通过第三方穿戴设备同步你运动记录与健康数据，Keep 将从吃、练、睡三个方面评估你的身体状态，给你深度数据解读与行动建议</p></div></article>
+      <article class="card h540"><div class="pic"><img src="assets/tool-medal.webp" alt="" loading="lazy"></div><div class="txt"><h3>奖牌赛事</h3><p>IP 联名、热门周边、赛事活动，用汗水获得成就见证</p></div></article>
+    </div>
+    <div class="arrows"><div class="wrap">
+      <button class="arrow prev" aria-label="上一张" disabled><img class="l" src="assets/ic-arrow-left.svg" alt=""></button>
+      <button class="arrow next" aria-label="下一张"><img class="r" src="assets/ic-arrow-right.svg" alt=""></button>
+    </div></div>
+  </section>
+
+  <!-- AI -->
+  <section class="sec-head v2" id="ai">
+    <div class="wrap">
+      <div class="eyebrow"><img src="assets/ic-star-ai.svg" alt="">每一步，都有 AI 陪伴</div>
+      <h2 class="sec-title">从计划到反馈，AI 全程在线</h2>
+      <p class="sec-desc">智能安排运动日程，实时提供语音指导，并通过分析与识别持续了解身体变化</p>
+    </div>
+  </section>
+  <section class="carousel" data-carousel>
+    <div class="track">
+      <article class="card"><div class="pic"><img src="assets/ai-1.webp" alt="" loading="lazy"></div><div class="txt"><h3>AI 教练管理日程</h3><p>智能定制计划，掌控训练节奏</p></div></article>
+      <article class="card"><div class="pic"><img src="assets/ai-2.webp" alt="" loading="lazy"></div><div class="txt"><h3>AI 互动语音指导</h3><p>双向语音实时对话，全程提供跑步指导</p></div></article>
+      <article class="card"><div class="pic"><img src="assets/ai-3.webp" alt="" loading="lazy"></div><div class="txt"><h3>身体年龄分析</h3><p>多维评估身体年龄，了解身体状态变化趋势</p></div></article>
+      <article class="card"><div class="pic"><img src="assets/ai-4.webp" alt="" loading="lazy"></div><div class="txt"><h3>饮食记录分析</h3><p>拍照记录饮食与计算热量，提供饮食建议</p></div></article>
+      <article class="card"><div class="pic"><img src="assets/ai-5.webp" alt="" loading="lazy"></div><div class="txt"><h3>睡眠建议</h3><p>多维监测睡眠指标，科学评估每晚睡眠质量</p></div></article>
+    </div>
+    <div class="arrows"><div class="wrap">
+      <button class="arrow prev" aria-label="上一张" disabled><img class="l" src="assets/ic-arrow-left.svg" alt=""></button>
+      <button class="arrow next" aria-label="下一张"><img class="r" src="assets/ic-arrow-right.svg" alt=""></button>
+    </div></div>
+  </section>
+
+  <!-- 会员 -->
+  <section class="sec-head v2" id="vip">
+    <div class="wrap">
+      <div class="eyebrow"><img src="assets/ic-vip.svg" alt="">每一份坚持，都值得更好体验</div>
+      <h2 class="sec-title">从内容到服务，会员品质保证</h2>
+      <p class="sec-desc">畅享精品课程、专属工具与多重会员权益，为运动与健康提供更丰富、更优质的体验</p>
+    </div>
+  </section>
+  <section class="carousel" data-carousel>
+    <div class="track">
+      <article class="card"><div class="pic"><img src="assets/vip-1.webp" alt="" loading="lazy"></div><div class="txt"><h3>专属定制计划</h3><p>量身定制训练日程，科学匹配运动需求</p></div></article>
+      <article class="card"><div class="pic"><img src="assets/vip-2.webp" alt="" loading="lazy"></div><div class="txt"><h3>精品会员课程</h3><p>官方精选千节精品课，科学分级，随心开练</p></div></article>
+      <article class="card"><div class="pic"><img src="assets/vip-3.webp" alt="" loading="lazy"></div><div class="txt"><h3>运动语音陪伴</h3><p>全程语音陪跑，助你轻松跑更远</p></div></article>
+      <article class="card"><div class="pic"><img src="assets/vip-4.webp" alt="" loading="lazy"></div><div class="txt"><h3>全方位评估工具</h3><p>体态、腿型、肩颈等多维评测，精准定位身体问题</p></div></article>
+    </div>
+    <div class="arrows"><div class="wrap">
+      <button class="arrow prev" aria-label="上一张" disabled><img class="l" src="assets/ic-arrow-left.svg" alt=""></button>
+      <button class="arrow next" aria-label="下一张"><img class="r" src="assets/ic-arrow-right.svg" alt=""></button>
+    </div></div>
+  </section>
+
+  <!-- 与用户同行 -->
+  <section class="users">
+    <div class="wrap">
+      <h2 class="sec-title">与用户同行</h2>
+      <p class="sec-desc">Keep 始终坚持与用户站在一起，聆听用户的声音，从用户的角度出发不断提升运动体验。<br>欢迎使用 Keep，与 4 亿 Keepers 一起运动</p>
+      <div class="stats">
+        <div class="stat first">
+          <img class="laurel l" src="assets/laurel-left.svg" alt="">
+          <div class="stat-body"><span class="stat-label">295 万个评分</span><img class="n49" src="assets/num-4-9.svg" alt="4.9"><img class="nstars" src="assets/stars.svg" alt="5 星"></div>
+          <img class="laurel" src="assets/laurel-right.svg" alt="">
+        </div>
+        <div class="stat">
+          <img class="laurel l" src="assets/laurel-left.svg" alt="">
+          <div class="stat-body"><span class="stat-label">Keepers</span><img class="n400" src="assets/num-400m.svg" alt="400,000,000 +"><span class="stat-sub">运动选择</span></div>
+          <img class="laurel" src="assets/laurel-right.svg" alt="">
+        </div>
+        <div class="stat">
+          <img class="laurel l" src="assets/laurel-left.svg" alt="">
+          <div class="stat-body"><span class="stat-label">排行榜</span><img class="ntop" src="assets/num-top4.svg" alt="# TOP 4"><span class="stat-sub">健康健美</span></div>
+          <img class="laurel" src="assets/laurel-right.svg" alt="">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 用户评论（无缝滚动） -->
+  <section class="reviews" aria-label="用户评价">
+    <div class="wrap"><div class="marquee" id="marquee"></div></div>
+  </section>
+</main>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="f-cols">
+      <div class="f-col"><h5>产品与服务</h5><ul><li><a href="#">Keep App</a></li><li><a href="#">消费品</a></li><li><a href="#">智能硬件</a></li><li><a href="#">运动课程</a></li><li><a href="#">Keepace.ai</a></li><li><a href="#">运动档案</a></li></ul></div>
+      <div class="f-col"><h5>线上商城</h5><ul><li><a href="#">Keep 商城</a></li><li><a href="#">天猫旗舰店</a></li><li><a href="#">京东旗舰店</a></li></ul></div>
+      <div class="f-col"><h5>探索 Keep</h5><ul><li><a href="#">了解 Keep</a></li><li><a href="#">可持续发展</a></li><li><a href="#">媒体动态</a></li><li><a href="#">投资者关系</a></li></ul></div>
+      <div class="f-col"><h5>规范说明</h5><ul><li><a href="#">社区规范</a></li><li><a href="#">用户公约</a></li><li><a href="#">规则百科</a></li><li><a href="#">侵权投诉说明</a></li></ul></div>
+    </div>
+    <div class="f-row">
+      <img class="f-logo" src="assets/footer-logo.svg" alt="Keep">
+      <div class="f-links"><a href="#">关于我们</a><a href="#">加入我们</a><a href="#">联系方式</a><a href="#">用户协议</a><a href="#">隐私政策</a><a href="#">廉洁举报</a></div>
+      <div class="f-social">
+        <a href="#" aria-label="小红书"><img src="assets/ic-xiaohongshu.svg" alt=""></a>
+        <a href="#" aria-label="社交平台"><img src="assets/ic-social-2.svg" alt=""></a>
+        <a href="#" class="weibo" aria-label="微博"><i><img src="assets/weibo.svg" alt=""></i></a>
+        <a href="#" aria-label="社交平台"><img src="assets/ic-social-4.svg" alt=""></a>
+        <a href="#" aria-label="社交平台"><img src="assets/ic-social-5.svg" alt=""></a>
+      </div>
+    </div>
+    <div class="f-legal">
+      <div class="f-line"></div>
+      <div>
+        <p>2014-2026 © Keep All Rights Reserved.<a href="http://www.gsxt.gov.cn/index.html" target="_blank" rel="noopener">北京卡路里科技有限公司</a><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener"> 京ICP备14051192号 京ICP备14051192号-20 京ICP证160770号 京ICP备14051192号-10A</a>&nbsp;&nbsp;&nbsp;<a class="u" href="https://beian.mps.gov.cn/#/query/webSearch?code=11010502054474" target="_blank" rel="noopener">京公网安备 11010502054474号京网文〔2019〕4084-422号</a>节目制作经营许可证京字11855号<a href="http://www.keep.com.cn/cyber-performance-license" target="_blank" rel="noopener">网络文化经营许可证</a>营业执照（911101053179472352）</p>
+        <p>如果您在 Keep 发现违法违规内容， 请您向我们举报！ 未成年守护 / 违法有害举报电话：010-86399205 举报邮箱：report@keep.com App 使用 / 赛事 / 商城反馈电话：4006 - 321 - 666（服务时间 9:00-21:00）</p>
+        <p>地址：北京市朝阳区万科时代中心 D 座组织机构代码：911101053179472352联系方式：4006-321-666食品经营许可证号：JY11105262818849</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// 导航菜单（手机）
+(function(){
+  var nav=document.getElementById('nav'),btn=document.getElementById('menuBtn');
+  btn.addEventListener('click',function(){var o=nav.classList.toggle('open');btn.setAttribute('aria-expanded',o)});
+  nav.querySelectorAll('.nav-tabs a').forEach(function(a){a.addEventListener('click',function(){nav.classList.remove('open')})});
+})();
+
+// 卡片轮播：左右箭头按一张卡片步进，首尾自动置灰
+document.querySelectorAll('[data-carousel]').forEach(function(c){
+  var track=c.querySelector('.track'),prev=c.querySelector('.prev'),next=c.querySelector('.next');
+  function update(){
+    var max=track.scrollWidth-track.clientWidth-2;
+    prev.disabled=track.scrollLeft<=2;
+    next.disabled=track.scrollLeft>=max;
+  }
+  function step(dir){
+    var cards=[].slice.call(track.children),pl=parseFloat(getComputedStyle(track).paddingLeft),x=track.scrollLeft,target;
+    if(dir>0){target=cards.map(function(el){return el.offsetLeft-pl}).find(function(o){return o>x+4})}
+    else{target=cards.map(function(el){return el.offsetLeft-pl}).reverse().find(function(o){return o<x-4})}
+    track.scrollTo({left:target==null?(dir>0?track.scrollWidth:0):target});
+  }
+  prev.addEventListener('click',function(){step(-1)});
+  next.addEventListener('click',function(){step(1)});
+  track.addEventListener('scroll',update,{passive:true});
+  window.addEventListener('resize',update);
+  update();
+});
+
+// 用户评论：设计稿动效为 20s 线性位移 -1946px；这里保持相同速度并做成无缝循环
+(function(){
+  var data=[
+    ['重回校园上体育课的感觉','A里123456789 · 1年前','从朋友那里看到后下载下来开始锻炼，根据自己的情况选择了比较适合下班后在家里训练的课程，我比较喜欢这种简单直接的教程，有种重新回到学校上体育课的感觉，很棒!'],
+    ['真的好用!','小宇 ·  4 年前','这是我使用过的最好的锻炼软件，可以根据需求自行定制适合自己训练的过程，且这个过程讲究循序渐进，不会让身体太过于疲劳导致第二天无法训练，建议一周5天训练。里面的训练服价格不贵，质量不错。'],
+    ['宅人最爱，相见恨晚!','楊咪妮 · 8年前','我是一个出门特别难的人，每次办了健身年卡加上二十节私教课也去不了十次的人来说 Keep 真是太贴心了，满足了我不喜欢被固定时间限制的人的需求，同时因为不喜欢社交，Keep 是自娱自乐随意做各种尝试的好地方。相见恨晚!'],
+    ['一起来','突突突莫莫莫喷啧啧 · 8年前','在同事的介绍下认识了 Keep，刚开始只是跟着大家凑热闹，当通过课程的学习和体验后，我发现自己的身体也随之发生了变化，就这样慢慢练习至今，这是一款很棒的软件，能给予健身初学者很好的指导，让我们一起练起来!'],
+    ['很好的健身软件','Sabrina_Gao · 3 年前','朋友推荐下的,用过之后很是不错。瑜伽部分节奏音乐讲解配合的很棒。如果能坚持下来对身体会有很多好处，目前还处于三天打鱼两天晒网阶段，需要多多要求自己了，加油!'],
+    ['健身必备','L乐悦Y · 7年前','很多课程都是免费的，分了入门，进阶各种练习等级，适合不同健身程度的人群自主选择锻炼。里面的课程动作也容易跟上，让人有跟着锻炼下去的欲望。']
+  ];
+  var m=document.getElementById('marquee'),html='';
+  function esc(s){return s.replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
+  for(var k=0;k<3;k++)data.forEach(function(d){
+    html+='<article class="review"'+(k?' aria-hidden="true"':'')+'><div class="review-head"><h4>'+esc(d[0])+'</h4><div class="review-meta"><span class="s">★★★★★</span><span class="u">'+esc(d[1])+'</span></div></div><p>'+esc(d[2])+'</p></article>';
+  });
+  m.innerHTML=html;
+  var SPEED=1946/20; // px/s，来自设计稿
+  function setup(){
+    var first=m.children[0],gap=parseFloat(getComputedStyle(m).columnGap)||24;
+    var dist=(first.offsetWidth+gap)*data.length;
+    m.style.setProperty('--dist',-dist+'px');
+    m.style.setProperty('--dur',(dist/SPEED)+'s');
+  }
+  setup();
+  window.addEventListener('resize',setup);
+})();
+</script>
+</body>
+</html>
